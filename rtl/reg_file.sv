@@ -1,8 +1,13 @@
+//rs1, rs2 == regiters containing first and second operand
+// rd == register to write result to
+
 module reg_file ( 
     input logic clk,
     input logic [31:0] instr,
     input logic we,
     input logic wd
+    output logic RD1,
+    output logic RD2
 )
 
     logic [4:0] rs1;
@@ -16,3 +21,9 @@ module reg_file (
 
     always_comb begin 
         if (rs1 == '0) begin 
+            RD1 = '0;
+        end else if () begin
+            RD1 = reg_content[rs1];
+        end else begin
+
+    always @ ff (posedge clk)
