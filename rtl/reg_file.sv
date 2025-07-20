@@ -5,7 +5,7 @@ module reg_file (
     input logic clk,
     input logic [31:0] instr,
     input logic we,
-    input logic wd
+    input logic wd,
     output logic RD1,
     output logic RD2
 )
@@ -24,6 +24,21 @@ module reg_file (
             RD1 = '0;
         end else if () begin
             RD1 = reg_content[rs1];
-        end else begin
+        end 
+    end
 
-    always @ ff (posedge clk)
+    always_comb begin 
+        if (rs2 == '0) begin 
+            RD2 = '0;
+        end else if () begin
+            RD2 = reg_content[rs2];
+        end
+    end
+
+    always_ff @ (posedge clk) begin
+        if (we && wd != '0) begin
+            reg_content[rd] <= wd;
+        end
+    end
+
+endmodule
