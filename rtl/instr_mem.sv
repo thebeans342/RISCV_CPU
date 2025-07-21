@@ -1,4 +1,4 @@
-module RAM #(
+module instr_mem #(
     parameter ADDR_WIDTH = 8,
     parameter DATA_WIDTH = 8
 )
