@@ -2,13 +2,13 @@
 // rd == register to write result to
 
 module reg_file ( 
-    input logic clk,
-    input logic [31:0] instr,
-    input logic we,
-    input logic wd,
-    output logic RD1,
-    output logic RD2
-)
+    input   logic clk,
+    input   logic [31:0]  instr,
+    input   logic         we,
+    input   logic [31:0]  wd,
+    output  logic [31:0] RD1,
+    output  logic [31:0] RD2
+);
 
     logic [4:0] rs1;
     logic [4:0] rs2;
@@ -22,7 +22,7 @@ module reg_file (
     always_comb begin 
         if (rs1 == '0) begin 
             RD1 = '0;
-        end else if () begin
+        end else begin
             RD1 = reg_content[rs1];
         end 
     end
@@ -30,7 +30,7 @@ module reg_file (
     always_comb begin 
         if (rs2 == '0) begin 
             RD2 = '0;
-        end else if () begin
+        end else begin
             RD2 = reg_content[rs2];
         end
     end
