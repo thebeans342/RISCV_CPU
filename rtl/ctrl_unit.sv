@@ -1,15 +1,20 @@
 module ctrl_unit (
     input   logic [31:0] instr,
     input   logic EQ,
-    output  logic [2:0] ALUctrl,
     output  logic PCsrc,
     output  logic ResultSrc,
     output  logic MemWrite,
+    output  logic [2:0] ALUctrl,
     output  logic ALUsrc,
     output  logic [1:0] ImmSrc,
     output  logic RegWrite
 );
-    assign op   = instr[6:0];
+
+    logic [6:0] op;
+    logic [2:0] funct3;
+    logic funct7;
+
+    assign op     = instr[6:0];
     assign funct3 = instr[14:12];
     assign funct7 = instr[30];
 
