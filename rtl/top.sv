@@ -26,6 +26,62 @@ module top #(
 
     logic [DATA_WIDTH-1:0] PC_out;
 
+    PC PC (
+        .clk(clk),
+        .rst(rst),
+        .PCsrc(PCsrc),
+        .ImmOp(ImmOp),
+        .PC_out(PC_out)
+    );
+
+    instr_mem instr_mem (
+        .rst(rst),
+        .rd_addr(PC_out),
+        .dout(instr)
+    );          
+
+    ctrl_unit ctrl_unit (
+        .instr(instr),
+        .EQ(EQ),
+        .PCsrc(PCsrc),
+        .ResultSrc(ResultSrc),
+        .MemWrite(MemWrite),
+        .ALUctrl(ALUctrl),
+        .ALUsrc(ALUsrc),
+        .ImmSrc(ImmSrc),
+        .RegWrite(RegWrite)
+    );
+
+    reg_file reg_file (
+        .clk(clk),
+        //.rst(rst),
+        .instr(instr),
+        .we(RegWrite),
+        .wd(ALUout),
+        .RD1(ALUop1),
+        .RD2(regOp2)
+    );
+
+    ALU ALU (
+        .ALUop1(ALUop1),
+        .regop2(regOp2),
+        .ALUctrl(ALUctrl),
+        .ALUsrc(ALUsrc),
+        .ImmOp(ImmOp),
+        .ALUout(ALUout),
+        .EQ(EQ)
+    );
+
+    // data_mem #(
+    //     .DATA_WIDTH(DATA_WIDTH)
+    // ) data_mem (
+    //     .clk(clk),
+    //     .wen(MemWrite),
+    //     .read_enable(ResultSrc),
+    //     .addr(ALUout[DATA_WIDTH-1:0]),
+    //     .write_data(regOp2),
+    //     .read_data(instr[11:7]) // Assuming read_data is used for some purpose
+    // );
     
 
 endmodule

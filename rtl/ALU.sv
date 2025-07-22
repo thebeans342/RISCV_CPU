@@ -1,5 +1,5 @@
 //EQ == equal to or greater than
-module ALUctrl_MUX #(
+module ALU #(
     DATA_WIDTH = 32
 ) (
     input   logic [DATA_WIDTH-1:0]  ALUop1,
