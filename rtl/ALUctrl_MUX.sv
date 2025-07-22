@@ -4,7 +4,7 @@ module ALUctrl_MUX #(
 ) (
     input   logic [DATA_WIDTH-1:0]  in0,
     input   logic [DATA_WIDTH-1:0]  in1,
-    input   logic                   ALUctrl,
+    input   logic [2:0]             ALUctrl,
     output  logic [DATA_WIDTH-1:0]  ALUout,
     output  logic EQ
 );

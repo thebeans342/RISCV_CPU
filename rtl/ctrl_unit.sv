@@ -9,9 +9,9 @@ module ctrl_unit (
     output  logic [1:0] ImmSrc,
     output  logic RegWrite
 );
-    assign op <= instr[6:0];
-    assign funct3 <= instr[14:12];
-    assign funct7 <= instr[30];
+    assign op   = instr[6:0];
+    assign funct3 = instr[14:12];
+    assign funct7 = instr[30];
 
     always_comb begin
         case (op)

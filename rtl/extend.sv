@@ -7,10 +7,10 @@ module extend(
     always_comb begin
         if (ImmSrc) begin
             //I type
-            ext_instr = {{20{instr[31]}}, instr[31:20]}; // I-type and S-type
+            ext_instr = {{20{instr[31]}}, instr[31:20]}; 
         end else begin
             // S type
-            ext_instr = {20'b0, instr[31:20]}; // U-type and J-type
+            ext_instr = {20'b0, instr[31:20]}; 
         end
     end
 

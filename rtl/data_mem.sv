@@ -3,6 +3,7 @@ module data_mem #(
 ) (
     input   logic clk,
     input   logic wen,
+    input   logic read_enable,
     input   logic [DATA_WIDTH-1:0] addr,
     input   logic [DATA_WIDTH-1:0] write_data,
     output  logic [DATA_WIDTH-1:0] read_data
@@ -11,7 +12,7 @@ module data_mem #(
     logic [DATA_WIDTH-1:0] mem [0:255];
 
     always_ff @(posedge clk) begin
-        if (write_enable) begin
+        if (wen) begin
             // Write data to memory
             mem[addr] <= write_data;
         end
