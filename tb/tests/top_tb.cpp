@@ -10,8 +10,8 @@ class CpuTestbench : public Testbench
 protected:
     void initializeInputs() override
     {
-        top_tb->clk = 1;
-        top_tb->rst = 0;
+        top->clk = 1;
+        top->rst = 0;
 
         system("./compile.sh --input asm/program.s");
     }
