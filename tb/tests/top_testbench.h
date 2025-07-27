@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-
 #include "Vdut.h"
 #include "verilated.h"
 #include "verilated_vcd_c.h"
@@ -9,36 +8,52 @@
 
 #define MAX_SIM_CYCLES 10000
 
-extern unsigned int ticks;
-
 class BaseTestbench : public ::testing::Test
 {
 public:
+    void runSimulation(int cycles = 1)
+    {
+        for (int i = 0; i < cycles; i++)
+        {
+            for (int clk = 0; clk < 2; clk++)
+            {
+                top->eval();
+                tfp->dump(2 * ticks + clk);
+                top->clk = !top->clk;
+            }
+            ticks++;
+        }
+
+        if (Verilated::gotFinish())
+            exit(0);
+    }
+
     void SetUp() override
     {
-        top = std::make_unique<Vdut>();
-#ifndef __APPLE__
-        tfp = std::make_unique<VerilatedVcdC>();
+        top = new Vdut;
+        tfp = new VerilatedVcdC;
+
         Verilated::traceEverOn(true);
-        top->trace(tfp.get(), 99);
+        top->trace(tfp, 99);
         tfp->open("waveform.vcd");
-#endif
+
+        ticks = 0;
         initializeInputs();
     }
 
     void TearDown() override
     {
         top->final();
-#ifndef __APPLE__
         tfp->close();
-#endif
+
+        delete top;
+        delete tfp;
     }
 
     virtual void initializeInputs() = 0;
 
 protected:
-    std::unique_ptr<Vdut> top;
-#ifndef __APPLE__
-    std::unique_ptr<VerilatedVcdC> tfp;
-#endif
+    Vdut* top;
+    VerilatedVcdC* tfp;
+    unsigned int ticks = 0;
 };

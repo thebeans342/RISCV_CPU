@@ -5,7 +5,7 @@
 
 unsigned int ticks = 0;
 
-class CpuTestbench : public Testbench
+class CpuTestbench : public BaseTestbench
 {
 protected:
     void initializeInputs() override
