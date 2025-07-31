@@ -14,7 +14,6 @@ module top #(
     logic [2:0] ALUctrl;
     logic ALUsrc;
     logic [1:0] ImmSrc;
-    logic RegWrite;
 
     logic we;
     logic [DATA_WIDTH-1:0] ALUout; //wd
@@ -36,9 +35,15 @@ module top #(
 
     instr_mem instr_mem (
         .rst(rst),
-        .rd_addr(PC_out),
+        .rda(PC_out),
         .dout(instr)
-    );          
+    );     
+
+    extend extend (
+        .instr(instr),
+        .ImmSrc(ImmSrc[0]),
+        .ext_instr(ImmOp)
+    );     
 
     ctrl_unit ctrl_unit (
         .instr(instr),
@@ -49,17 +54,20 @@ module top #(
         .ALUctrl(ALUctrl),
         .ALUsrc(ALUsrc),
         .ImmSrc(ImmSrc),
-        .RegWrite(RegWrite)
+        .RegWrite(we)
     );
 
     reg_file reg_file (
         .clk(clk),
         //.rst(rst),
-        .instr(instr),
-        .we(RegWrite),
+        .we(we),
         .wd(ALUout),
+        .rs1(instr[19:15]),
+        .rs2(instr[24:20]),
+        .rd(instr[11:7]),
         .RD1(ALUop1),
-        .RD2(regOp2)
+        .RD2(regOp2),
+        .a0(a0) 
     );
 
     ALU ALU (
@@ -71,6 +79,11 @@ module top #(
         .ALUout(ALUout),
         .EQ(EQ)
     );
+
+    // always_ff @(posedge clk) begin
+    //     $display("PC: %h, instr: %h, a0: %h", PC_out, instr, a0);
+    // end
+
 
     // data_mem #(
     //     .DATA_WIDTH(DATA_WIDTH)

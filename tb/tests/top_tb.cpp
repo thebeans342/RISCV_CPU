@@ -14,6 +14,12 @@ protected:
         top->rst = 0;
 
         system("./compile.sh --input asm/program.s");
+
+        int result = system("./compile.sh asm/assembly_test.S");
+        if (result != 0) {
+            FAIL() << "Compilation failed with error code: " << result;
+        }
+
     }
 };
 
@@ -34,7 +40,7 @@ TEST_F(CpuTestbench, BaseProgramTest)
     }
     if (!success)
     {
-        FAIL() << "Counter did not reach 254";
+        FAIL() << "a0 did not reach 254, it reached " << top->a0;
     }
 }
 

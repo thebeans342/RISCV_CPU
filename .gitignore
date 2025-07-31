@@ -8,3 +8,4 @@ program.hex
 *.log
 graphs
 *.dis
+*.hex

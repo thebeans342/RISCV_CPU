@@ -3,41 +3,28 @@
 
 module reg_file ( 
     input   logic clk,
-    input   logic [31:0]  instr,
     input   logic         we,
     input   logic [31:0]  wd,
-    output  logic [31:0] RD1,
-    output  logic [31:0] RD2
+    input   logic [4:0]   rs1,
+    input   logic [4:0]   rs2,
+    input   logic [4:0]   rd,
+    output  logic [31:0]  RD1,
+    output  logic [31:0]  RD2,
+    output  logic [31:0]  a0 // For testing purposes, outputting a0 register content
 );
+    logic [31:0] reg_content [31:0];
 
-    logic [4:0] rs1;
-    logic [4:0] rs2;
-    logic [4:0] rd;
-    logic [31:0] reg_content [31:1];
-
-    assign rs1 = instr[19:15];
-    assign rs2 = instr[24:20];
-    assign rd = instr[11:7];
+    assign a0 = reg_content[10];
 
     always_comb begin 
-        if (rs1 == '0) begin 
-            RD1 = '0;
-        end else begin
-            RD1 = reg_content[rs1];
-        end 
+        RD1 = reg_content[rs1];
+        RD2 = reg_content[rs2];
     end
 
-    always_comb begin 
-        if (rs2 == '0) begin 
-            RD2 = '0;
-        end else begin
-            RD2 = reg_content[rs2];
-        end
-    end
-
-    always_ff @ (posedge clk) begin
-        if (we && wd != '0) begin
+    always_ff @ (negedge clk) begin
+        if (we & wd != '0) begin
             reg_content[rd] <= wd;
+            $display("Writing to reg[%0d]: %h", rd, wd); // Debugging output
         end
     end
 

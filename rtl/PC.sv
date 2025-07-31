@@ -5,13 +5,15 @@ module PC (
     input logic [31:0] ImmOp,
     output logic [31:0] PC_out
 );
-    always_ff @ (posedge clk or posedge rst) begin
-        if (rst) begin
-            PC_out <= 32'b0; 
-        end else if (PCsrc) begin
-            PC_out <= ImmOp + PC_out; // Update PC with immediate value
-        end else begin
-            PC_out <= PC_out + 4; // Increment PC by 4 for next instruction
-        end
+    logic [31:0] next_PC;
+
+    always_comb begin
+        next_PC = PCsrc ? PC_out + ImmOp : PC_out + 4;
     end
+
+    always_ff @(posedge clk or posedge rst) begin
+        PC_out <= rst ? 32'b0 : next_PC;
+        //$display("PC_out: %h", PC_out); // Debugging output
+    end
+
 endmodule
