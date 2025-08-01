@@ -80,9 +80,9 @@ module top #(
         .EQ(EQ)
     );
 
-    // always_ff @(posedge clk) begin
-    //     $display("PC: %h, instr: %h, a0: %h", PC_out, instr, a0);
-    // end
+    always_ff @(posedge clk) begin
+        $display("PC: %h, instr: %h, a0: %h", PC_out, instr, a0);
+    end
 
 
     // data_mem #(
