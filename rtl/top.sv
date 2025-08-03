@@ -80,8 +80,13 @@ module top #(
         .EQ(EQ)
     );
 
+    logic [4:0] tick = 0; 
+
     always_ff @(posedge clk) begin
-        $display("PC: %h, instr: %h, a0: %h", PC_out, instr, a0);
+        while(tick < 20) begin
+            $display("PC: %h, instr: %h, a0: %h", PC_out, instr, a0);
+            tick <= tick + 1;
+        end
     end
 
 

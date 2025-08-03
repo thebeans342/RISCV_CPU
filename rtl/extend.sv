@@ -5,13 +5,7 @@ module extend(
 );
 
     always_comb begin
-        if (ImmSrc) begin
-            //I type
-            ext_instr = {{20{instr[31]}}, instr[31:20]}; 
-        end else begin
-            // S type
-            ext_instr = {20'b0, instr[31:20]}; 
-        end
+        ext_instr = ImmSrc ? {{20{instr[31]}}, instr[31:25], instr[11:7]} : {{20{instr[31]}}, instr[31:20]};
     end
 
 endmodule
