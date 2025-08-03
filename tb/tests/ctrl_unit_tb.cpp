@@ -62,6 +62,15 @@ TEST_F(CtrlTestbench, BtypeBranchTest) {
     EXPECT_EQ(ctrl->ImmSrc, 2); // B-type
 }
 
+TEST_F(CtrlTestbench, BNETest) {
+    ctrl->instr = 0xfe659ce3;
+    ctrl->eval();
+    EXPECT_EQ(ctrl->RegWrite, 0);
+    EXPECT_EQ(ctrl->ALUsrc, 0);
+    EXPECT_EQ(ctrl->PCsrc, 1); // Because EQ=0, branch taken
+    EXPECT_EQ(ctrl->ImmSrc, 2); // B-type
+}
+
 
 int main(int argc, char **argv)
 {
