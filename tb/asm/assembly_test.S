@@ -9,4 +9,4 @@ iloop:
     addi    a0, a1, 0           # output = i
     addi    a1, a1, 1           # i++
     bne     a1, t1, iloop       # if i != 255, goto iloop
-    bne     t1, zero, mloop     # if t1 != 0 (hint: ALWAYS) goto mloop
+    lw      a0, 0(a1)     # if t1 != 0 (hint: ALWAYS) goto mloop

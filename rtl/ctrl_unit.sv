@@ -5,7 +5,8 @@ module ctrl_unit (
     output  logic [2:0]     ALUctrl,
     output  logic           ALUsrc,
     output  logic [1:0]     ImmSrc,
-    output  logic           RegWrite
+    output  logic           RegWrite,
+    output logic            MemWrite
 );
 
     logic [6:0] op;
@@ -23,6 +24,7 @@ module ctrl_unit (
         ImmSrc = 0;
         PCsrc = 0;
         ALUctrl = 3'b000;
+        MemWrite = 0;
 
         case (op)
             // load (I-type)
@@ -31,6 +33,7 @@ module ctrl_unit (
                 ImmSrc = 2'b00; 
                 ALUsrc = 1;
                 ALUctrl = funct3;
+                MemWrite = 0; 
             end
             
             // store (S-type)
@@ -38,12 +41,14 @@ module ctrl_unit (
                 ImmSrc = 2'b01; 
                 ALUsrc = 1;
                 ALUctrl = funct3;
+                MemWrite = 1; // Store operation writes to memory
             end
             
             // R-type
             7'b0110011: begin
                 RegWrite = 1; 
                 ALUsrc = 0;
+                MemWrite = 0; // R-type does not write to memory
 
                 case(funct3)
                     3'b000: begin // add, sub
@@ -69,6 +74,7 @@ module ctrl_unit (
                 RegWrite = 1;
                 ImmSrc = 2'b00;
                 ALUsrc = 1;
+                MemWrite = 0; // I-type does not write to memory
                 // funct3 = 3'b000 for addi
                 ALUctrl = funct3; 
             end
@@ -78,6 +84,7 @@ module ctrl_unit (
                 RegWrite = 0; 
                 ImmSrc = 2'b10;
                 ALUsrc = 0; 
+                MemWrite = 0; // Branch instructions do not write to memory
                 
                 case (funct3)
                     3'b000: begin // beq
@@ -103,6 +110,7 @@ module ctrl_unit (
                 ALUsrc = 1;
                 PCsrc = 1;
                 ALUctrl = 3'b000;
+                MemWrite = 0; // jalr does not write to memory
             end
 
             default: begin

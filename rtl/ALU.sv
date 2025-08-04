@@ -36,6 +36,18 @@ module ALU #(
                 ALUout = ALUop1 ^ ALUop2;
                 EQ = (ALUop1 == ALUop2);
             end
+            3'b101: begin
+                ALUout = (ALUop1 < ALUop2) ? 1 : 0; // Less than comparison
+                EQ = (ALUop1 == ALUop2);
+            end
+            3'b110: begin
+                ALUout = (ALUop1 < ALUop2) ? 1 : 0; // Unsigned less than comparison
+                EQ = (ALUop1 == ALUop2);
+            end
+            3'b111: begin
+                ALUout = (ALUop1 < ALUop2) ? 1 : 0; // Signed less than comparison
+                EQ = (ALUop1 == ALUop2);
+            end
             default: begin
                 ALUout = '0; 
                 EQ = 1'b0;

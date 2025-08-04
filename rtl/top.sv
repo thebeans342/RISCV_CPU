@@ -25,6 +25,8 @@ module top #(
 
     logic [DATA_WIDTH-1:0] PC_out;
 
+    logic [DATA_WIDTH-1:0] read_data;
+
     PC PC (
         .clk(clk),
         .rst(rst),
@@ -50,7 +52,7 @@ module top #(
         .EQ(EQ),
         .PCsrc(PCsrc),
         //.ResultSrc(ResultSrc),
-        //.MemWrite(MemWrite),
+        .MemWrite(MemWrite),
         .ALUctrl(ALUctrl),
         .ALUsrc(ALUsrc),
         .ImmSrc(ImmSrc),
@@ -61,7 +63,7 @@ module top #(
         .clk(clk),
         //.rst(rst),
         .we(we),
-        .wd(ALUout),
+        .wd(read_data),
         .rs1(instr[19:15]),
         .rs2(instr[24:20]),
         .rd(instr[11:7]),
@@ -80,26 +82,16 @@ module top #(
         .EQ(EQ)
     );
 
-    logic [4:0] tick = 0; 
 
-    always_ff @(posedge clk) begin
-        // while(tick < 20) begin
-            $display("PC: %h, instr: %h, a0: %h", PC_out, instr, a0);
-    //         tick <= tick + 1;
-    //     end
-    end
-
-
-    // data_mem #(
-    //     .DATA_WIDTH(DATA_WIDTH)
-    // ) data_mem (
-    //     .clk(clk),
-    //     .wen(MemWrite),
-    //     .read_enable(ResultSrc),
-    //     .addr(ALUout[DATA_WIDTH-1:0]),
-    //     .write_data(regOp2),
-    //     .read_data(instr[11:7]) // Assuming read_data is used for some purpose
-    // );
+    data_mem data_mem(
+        .clk(clk),
+        .wen(MemWrite),
+        //.read_enable(ResultSrc),
+        .ResultSrc(ResultSrc),
+        .addr(ALUout),
+        .write_data(regOp2),
+        .read_data(read_data) 
+    );
     
 
 endmodule
