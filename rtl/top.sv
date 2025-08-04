@@ -41,7 +41,7 @@ module top #(
 
     extend extend (
         .instr(instr),
-        .ImmSrc(ImmSrc[0]),
+        .ImmSrc(ImmSrc),
         .ext_instr(ImmOp)
     );     
 
