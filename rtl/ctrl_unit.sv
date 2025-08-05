@@ -2,11 +2,12 @@ module ctrl_unit (
     input   logic [31:0]    instr,
     input   logic           EQ,
     output  logic           PCsrc,
-    output  logic [2:0]     ALUctrl,
+    //output  logic [2:0]     ALUctrl,
     output  logic           ALUsrc,
     output  logic [1:0]     ImmSrc,
     output  logic           RegWrite,
-    output logic            MemWrite
+    output  logic            MemWrite,
+    output  logic [1:0]      ALUOp
 );
 
     logic [6:0] op;
@@ -23,8 +24,9 @@ module ctrl_unit (
         ALUsrc = 0;
         ImmSrc = 0;
         PCsrc = 0;
-        ALUctrl = 3'b000;
+        //ALUctrl = 3'b000;
         MemWrite = 0;
+        ALUOp = 2'b00; 
 
         case (op)
             // load (I-type)
@@ -32,16 +34,18 @@ module ctrl_unit (
                 RegWrite = 1;
                 ImmSrc = 2'b00; 
                 ALUsrc = 1;
-                ALUctrl = funct3;
+                //ALUctrl = funct3;
                 MemWrite = 0; 
+                ALUOp = 2'b00; // Load operation uses ALU for address calculation
             end
             
             // store (S-type)
             7'b0100011: begin 
                 ImmSrc = 2'b01; 
                 ALUsrc = 1;
-                ALUctrl = funct3;
+                //ALUctrl = funct3;
                 MemWrite = 1; // Store operation writes to memory
+                ALUOp = 2'b00; // Store operation uses ALU for address calculation
             end
             
             // R-type
@@ -49,24 +53,25 @@ module ctrl_unit (
                 RegWrite = 1; 
                 ALUsrc = 0;
                 MemWrite = 0; // R-type does not write to memory
+                ALUOp = 2'b10; // R-type operations use ALU for computation
 
-                case(funct3)
-                    3'b000: begin // add, sub
-                        ALUctrl = (funct7 == 7'b0000000) ? 3'b000 : 3'b001;
-                    end
-                    3'b111: begin // and
-                        ALUctrl = 3'b010;
-                    end
-                    3'b110: begin // or
-                        ALUctrl = 3'b011;
-                    end
-                    3'b100: begin // xor
-                        ALUctrl = 3'b100;
-                    end
-                    default: begin
-                        ALUctrl = 3'b000;
-                    end
-                endcase
+                // case(funct3)
+                //     3'b000: begin // add, sub
+                //         ALUctrl = (funct7 == 7'b0000000) ? 3'b000 : 3'b001;
+                //     end
+                //     3'b111: begin // and
+                //         ALUctrl = 3'b010;
+                //     end
+                //     3'b110: begin // or
+                //         ALUctrl = 3'b011;
+                //     end
+                //     3'b100: begin // xor
+                //         ALUctrl = 3'b100;
+                //     end
+                //     default: begin
+                //         ALUctrl = 3'b000;
+                //     end
+                // endcase
             end
             
             // I-type instructions (e.g., ADDI)
@@ -75,8 +80,9 @@ module ctrl_unit (
                 ImmSrc = 2'b00;
                 ALUsrc = 1;
                 MemWrite = 0; // I-type does not write to memory
+                ALUOp = 2'b10; // I-type operations use ALU for computation
                 // funct3 = 3'b000 for addi
-                ALUctrl = funct3; 
+                //ALUctrl = funct3; 
             end
 
             // Branch instructions (B-type)
@@ -85,20 +91,21 @@ module ctrl_unit (
                 ImmSrc = 2'b10;
                 ALUsrc = 0; 
                 MemWrite = 0; // Branch instructions do not write to memory
+                ALUOp = 2'b01; // Branch operations use ALU for comparison
                 
                 case (funct3)
                     3'b000: begin // beq
                         PCsrc = EQ;
-                        ALUctrl = 3'b000; // ALU needs to perform subtract for comparison
+                        //ALUctrl = 3'b000; // ALU needs to perform subtract for comparison
                     end
                     3'b001: begin // bne
                         PCsrc = !EQ;
-                        ALUctrl = 3'b000; // ALU needs to perform subtract for comparison
+                        //ALUctrl = 3'b000; // ALU needs to perform subtract for comparison
                     end
                     // Add other branch instructions here
                     default: begin
                         PCsrc = 0;
-                        ALUctrl = 3'b000;
+                        //ALUctrl = 3'b000;
                     end
                 endcase
             end
@@ -109,7 +116,7 @@ module ctrl_unit (
                 ImmSrc = 2'b00;
                 ALUsrc = 1;
                 PCsrc = 1;
-                ALUctrl = 3'b000;
+                //ALUctrl = 3'b000;
                 MemWrite = 0; // jalr does not write to memory
             end
 
