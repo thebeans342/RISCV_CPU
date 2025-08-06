@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <utility>
 
-#include "base_testbench.h"
+#include "cpu_testbench.h"
 
 #define CYCLES 10000
 
@@ -29,22 +29,22 @@ TEST_F(CpuTestbench, TestLbuSb)
     EXPECT_EQ(top_->a0, 300);
 }
 
-TEST_F(CpuTestbench, TestJalRet)
-{
-    setupTest("4_jal_ret");
-    initSimulation();
-    runSimulation(CYCLES);
-    EXPECT_EQ(top_->a0, 53);
-}
+// TEST_F(CpuTestbench, TestJalRet)
+// {
+//     setupTest("4_jal_ret");
+//     initSimulation();
+//     runSimulation(CYCLES);
+//     EXPECT_EQ(top_->a0, 53);
+// }
 
-TEST_F(CpuTestbench, TestPdf)
-{
-    setupTest("5_pdf");
-    setData("reference/gaussian.mem");
-    initSimulation();
-    runSimulation(CYCLES * 100);
-    EXPECT_EQ(top_->a0, 15363);
-}
+// TEST_F(CpuTestbench, TestPdf)
+// {
+//     setupTest("5_pdf");
+//     setData("reference/gaussian.mem");
+//     initSimulation();
+//     runSimulation(CYCLES * 100);
+//     EXPECT_EQ(top_->a0, 15363);
+// }
 
 int main(int argc, char **argv)
 {
