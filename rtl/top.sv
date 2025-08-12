@@ -11,9 +11,9 @@ module top #(
     logic PCsrc;
     logic ResultSrc;
     logic MemWrite;
-    logic [2:0] ALUctrl;
+    logic [3:0] ALUctrl;
     logic ALUsrc;
-    logic [1:0] ImmSrc;
+    logic [2:0] ImmSrc;
     logic [1:0] ALUop;
 
     logic we;
@@ -65,7 +65,7 @@ module top #(
         .funct3(instr[14:12]),
         .funct7(instr[31:25]),
         .ALUop(ALUop), 
-        .op(instr[6:0]),
+        .opcode(instr[6:0]),
         .ALUctrl(ALUctrl)
     );
 

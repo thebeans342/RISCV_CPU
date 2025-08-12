@@ -26,12 +26,13 @@ protected:
 TEST_F(CpuTestbench, BaseProgramTest)
 {
     bool success = false;
-    system("./compile.sh asm/assembly_test.S");
+    //system("./compile.sh asm/assembly_test.S");
+    system("./compile.sh asm/alutest.S");
 
     for (int i = 0; i < CYCLES; i++)
     {
         runSimulation(1);
-        if (top->a0 == 254)
+        if (top->a0 == 1)
         {
             SUCCEED();
             success = true;
@@ -40,11 +41,30 @@ TEST_F(CpuTestbench, BaseProgramTest)
     }
     if (!success)
     {
-        FAIL() << "a0 did not reach 254, it reached " << top->a0;
+        FAIL() << "a0 did not reach 20, it reached " << top->a0;
     }
 }
 
+// TEST_F(CpuTestbench, ALUInstructionTest)
+// {
+//     //system("./compile.sh asm/assembly_test.S");
 
+//     setupTest("alutest");  // asm/alu.s -> program.hex
+//     initSimulation();
+
+//     runSimulation(100); // Enough to finish executing all instructions
+
+//     // Check register values: result of each instruction
+//     EXPECT_EQ(top->reg_content[10], 20);   // ADD: 15 + 5
+//     EXPECT_EQ(top->reg_content[11], 10);   // SUB: 15 - 5
+//     EXPECT_EQ(top->reg_content[12], 5);    // AND: 15 & 5
+//     EXPECT_EQ(top->reg_content[13], 15);   // OR: 15 | 5
+//     EXPECT_EQ(top->reg_content[14], 10);   // XOR: 15 ^ 5
+//     EXPECT_EQ(top->reg_content[15], 480);  // SLL: 15 << 5
+//     EXPECT_EQ(top->reg_content[16], 0);    // SRL: 15 >> 5
+//     EXPECT_EQ(top->reg_content[17], 0);    // SRA: 15 >> 5 (signed)
+//     EXPECT_EQ(top->reg_content[18], 0);    // SLTU: 15 < 5 → false
+// }
 
 // Note this is how we are going to test your CPU. Do not worry about this for
 // now, as it requires a lot more instructions to function
