@@ -4,9 +4,10 @@ module data_mem #(
 ) (
     input   logic clk,
     input   logic wen,
-    input   logic ResultSrc,
+    input   logic [1:0] ResultSrc,
     input   logic [DATA_WIDTH-1:0] addr,
     input   logic [DATA_WIDTH-1:0] write_data,
+    input   logic [DATA_WIDTH-1:0] PC_out,
     output  logic [DATA_WIDTH-1:0] read_data
 );
 
@@ -18,11 +19,15 @@ module data_mem #(
     // end
 
     always_comb begin
-        read_data = ResultSrc ? {mem[addr+3], mem[addr+2], mem[addr+1],mem[addr]} : addr;
+        case (ResultSrc)
+            2'b00: read_data = addr;
+            2'b01: read_data = {mem[addr+3], mem[addr+2], mem[addr+1],mem[addr]};
+            2'b10: read_data = PC_out + 4;
+        endcase
     end
 
     always_ff @(negedge clk) begin
-        if (wen && ResultSrc) begin
+        if (wen && {ResultSrc != '0}) begin
             // Write data to memory
             mem[addr] <= write_data[7:0];
             mem[addr+1] <= write_data[15:8];

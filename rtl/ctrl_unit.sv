@@ -6,7 +6,9 @@ module ctrl_unit (
     output  logic [2:0]     ImmSrc,
     output  logic           RegWrite,
     output  logic           MemWrite,
-    output  logic [1:0]     ALUOp
+    output  logic [1:0]     ALUOp,
+    output  logic [1:0]     ResultSrc, 
+    output  logic           is_JALR
 );
 
     logic [6:0] op;
@@ -25,6 +27,8 @@ module ctrl_unit (
         PCsrc = 0;
         MemWrite = 0;
         ALUOp = 2'b00; 
+        is_JALR = 0;
+        ResultSrc = 0;
 
         case (op)
             // load (I-type)
@@ -34,6 +38,7 @@ module ctrl_unit (
                 ALUsrc = 1;
                 MemWrite = 0; 
                 ALUOp = 2'b00; // Load operation uses ALU for address calculation
+                ResultSrc = 1;
             end
             
             // store (S-type)
@@ -90,10 +95,19 @@ module ctrl_unit (
                 ALUsrc = 1;
                 PCsrc = 1;
                 MemWrite = 0; // jalr does not write to memory
+                is_JALR = 1;
+                ResultSrc = 2'b10; // jalr uses PC + 4 as result source
             end
 
-            default: begin
-                // All signals remain at their default values
+            //jal
+            7'b1101111: begin
+                RegWrite = 1;
+                ImmSrc = 3'b100;
+                ALUsrc = 1;
+                PCsrc = 1;
+                MemWrite = 0;
+                is_JALR = 0;
+                ResultSrc = 2'b10; // jal uses PC + 4 as result source
             end
         endcase
     end
