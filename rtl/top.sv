@@ -101,12 +101,12 @@ module top #(
     data_mem data_mem(
         .clk(clk),
         .wen(MemWrite),
-        //.read_enable(ResultSrc),
         .ResultSrc(ResultSrc),
         .addr(ALUout),
         .write_data(regOp2),
         .read_data(read_data),
-        .PC_out(PC_out) 
+        .PC_out(PC_out),
+        .funct3(instr[14:12]) 
     );
     
 

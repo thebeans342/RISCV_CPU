@@ -27,12 +27,12 @@ TEST_F(CpuTestbench, BaseProgramTest)
 {
     bool success = false;
     //system("./compile.sh asm/assembly_test.S");
-    system("./compile.sh asm/JLRA.S");
+    system("./compile.sh asm/lbu_sb.S");
 
     for (int i = 0; i < CYCLES; i++)
     {
         runSimulation(1);
-        if (top->a0 == 53)
+        if (top->a0 == 300)
         {
             SUCCEED();
             success = true;
