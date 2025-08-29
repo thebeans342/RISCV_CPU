@@ -16,7 +16,7 @@ module data_mem #(
 
     initial begin
         $display("Loading data into data memory...");
-        $readmemh("../rtl/program.hex", mem, 17'h10000, 17'h1FFFF);
+        $readmemh("../rtl/data.hex", mem, 17'h10000, 17'h1FFFF);
     end
 
     always_comb begin

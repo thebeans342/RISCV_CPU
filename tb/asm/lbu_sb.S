@@ -1,7 +1,7 @@
 .text
 .globl main
 main:
-    li s0, 0x10000FFF   # create pointer to base of data array
+    li s0, 0x00010000   # create pointer to base of data array
 
     li t1, 100
     sb t1, 0(s0)    # store 100 at address 0x00010000
