@@ -10,9 +10,16 @@ module ALUctrl_unit (
             2'b00: begin // lw, sw
                 ALUctrl = 4'b000;
             end
-            2'b01: begin // beq
-                ALUctrl = 4'b001; 
-            end
+            2'b01:  // b-type
+                case (funct3)
+                    3'b000: ALUctrl = 4'b0001; // beq
+                    3'b001: ALUctrl = 4'b0001; // bne
+                    3'b100: ALUctrl = 4'b1000; // blt
+                    3'b101: ALUctrl = 4'b1000; // bge
+                    3'b110: ALUctrl = 4'b1001; // bltu
+                    3'b111: ALUctrl = 4'b1001; // bgeu
+                    default: ALUctrl = 4'b000; // default to add
+                endcase
             2'b10: begin // S-type
                 case (funct3)
                     3'b000: 

@@ -63,7 +63,8 @@ module top #(
         .ImmSrc(ImmSrc),
         .RegWrite(we),
         .ALUOp(ALUop),
-        .is_JALR(is_JALR)
+        .is_JALR(is_JALR),
+        .ALUout(ALUout)
     );
 
     ALUctrl_unit ALUctrl_unit (

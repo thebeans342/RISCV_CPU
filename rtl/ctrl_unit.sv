@@ -1,6 +1,7 @@
 module ctrl_unit (
     input   logic [31:0]    instr,
     input   logic           EQ,
+    input   logic [31:0]    ALUout,
     output  logic           PCsrc,
     output  logic           ALUsrc,
     output  logic [2:0]     ImmSrc,
@@ -14,6 +15,8 @@ module ctrl_unit (
     logic [6:0] op;
     logic [2:0] funct3;
     logic [6:0] funct7;
+
+    logic branch;
 
     assign op     = instr[6:0];
     assign funct3 = instr[14:12];
@@ -29,6 +32,7 @@ module ctrl_unit (
         ALUOp = 2'b00; 
         is_JALR = 0;
         ResultSrc = 0;
+        branch = 0;
 
         case (op)
             // load (I-type)
@@ -74,24 +78,22 @@ module ctrl_unit (
                 ALUsrc = 0; 
                 MemWrite = 0; // Branch instructions do not write to memory
                 ALUOp = 2'b01; // Branch operations use ALU for comparison
+                branch = 1;
                 
                 case (funct3)
-                    3'b000: begin // beq
-                        PCsrc = EQ;
-                    end
-                    3'b001: begin // bne
-                        PCsrc = !EQ;
-                    end
-                    default: begin
-                        PCsrc = 0;
-                    end
+                    3'b000: PCsrc = EQ; //beq
+                    3'b001: PCsrc = !EQ; //bne
+                    3'b100: PCsrc = ALUout[0]; //blt
+                    3'b101: PCsrc = !ALUout[0];//bge
+                    3'b110: PCsrc = ALUout[0]; //bltu
+                    3'b111: PCsrc = !ALUout[0]; //bgeu
                 endcase
             end
 
             // jalr
             7'b1100111: begin 
                 RegWrite = 1;
-                ImmSrc = 3'b100;
+                ImmSrc = 3'b000;
                 ALUsrc = 1;
                 PCsrc = 1;
                 MemWrite = 0; // jalr does not write to memory
@@ -109,6 +111,20 @@ module ctrl_unit (
                 is_JALR = 0;
                 ResultSrc = 2'b10; // jal uses PC + 4 as result source
             end
+
+            //lui
+            7'b0110111: begin
+                RegWrite = 1;
+                ImmSrc = 3'b011;
+                ALUsrc = 1;
+                //ALUop = 
+            end
+
+            //auipc
+            7'b0010111: begin
+                RegWrite = 1;
+            end
+
         endcase
     end
 endmodule
