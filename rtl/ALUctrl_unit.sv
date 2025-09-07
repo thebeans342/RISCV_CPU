@@ -35,9 +35,9 @@ module ALUctrl_unit (
                     3'b011: ALUctrl = 4'b1001; // sltu
                     3'b100: ALUctrl = 4'b0100; // xor
                     3'b101: 
-                        case ({opcode[5], funct7[5]}) 
-                            2'b10: ALUctrl = 4'b0110; // srl
-                            2'b11: ALUctrl = 4'b0111; // sra
+                        case (funct7) 
+                            7'b0: ALUctrl = 4'b0110; // srl
+                            7'b0010000: ALUctrl = 4'b0111; // sra
                         endcase
                     3'b110: ALUctrl = 4'b0011; // or
                     3'b111: ALUctrl = 4'b0010; // and

@@ -117,12 +117,16 @@ module ctrl_unit (
                 RegWrite = 1;
                 ImmSrc = 3'b011;
                 ALUsrc = 1;
-                //ALUop = 
+                ALUOp = 0;
+                MemWrite = 0;
             end
 
             //auipc
             7'b0010111: begin
                 RegWrite = 1;
+                ImmSrc = 3'b011;
+                ALUsrc = 1;
+                PCsrc = 1;
             end
 
         endcase
