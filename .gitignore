@@ -9,3 +9,4 @@ program.hex
 graphs
 *.dis
 *.hex
+*.mem

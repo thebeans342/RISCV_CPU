@@ -1,0 +1,57 @@
+`ifndef DEF_SV
+`define DEF_SV
+
+`define OPCODE_RTYPE 7'b0110011
+`define OPCODE_ITYPE 7'b0010011
+`define OPCODE_LOAD  7'b0000011     
+`define OPCODE_STORE 7'b0100011
+`define OPCODE_BRANCH 7'b1100011
+`define OPCODE_JAL   7'b1101111
+`define OPCODE_JALR  7'b1100111
+`define OPCODE_LUI   7'b0110111
+`define OPCODE_AUIPC 7'b0010111
+
+`define ADD_ALUCTRL 4'b0000
+`define SUB_ALUCTRL 4'b0001
+`define AND_ALUCTRL 4'b0010
+`define OR_ALUCTRL  4'b0011
+`define XOR_ALUCTRL 4'b0100
+`define SLL_ALUCTRL 4'b0101
+`define SRL_ALUCTRL 4'b0110
+`define SRA_ALUCTRL 4'b0111
+`define SLT_ALUCTRL 4'b1000
+`define SLTU_ALUCTRL 4'b1001
+
+`define ADDSUB_FUNCT3 3'b000
+`define SLL_FUNCT3 3'b001
+`define SLT_FUNCT3 3'b010
+`define SLTU_FUNCT3 3'b011
+`define XOR_FUNCT3 3'b100
+`define SR_FUNCT3 3'b101
+`define OR_FUNCT3 3'b110
+`define AND_FUNCT3 3'b111
+
+`define BEQ_FUNCT3 3'b000
+`define BNE_FUNCT3 3'b001
+`define BLT_FUNCT3 3'b100
+`define BGE_FUNCT3 3'b101
+`define BLTU_FUNCT3 3'b110
+`define BGEU_FUNCT3 3'b111
+
+`define LB_FUNCT3 3'b000
+`define LH_FUNCT3 3'b001
+`define LW_FUNCT3 3'b010
+`define LBU_FUNCT3 3'b100
+`define LHU_FUNCT3 3'b101
+
+`define SB_FUNCT3 3'b000
+`define SH_FUNCT3 3'b001
+`define SW_FUNCT3 3'b010
+
+`define IMM_I 3'b000
+`define IMM_S 3'b001
+`define IMM_B 3'b010
+`define IMM_U 3'b011
+`define IMM_J 3'b100
+
+`endif

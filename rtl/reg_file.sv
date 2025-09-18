@@ -22,7 +22,7 @@ module reg_file (
     end
 
     always_ff @ (negedge clk) begin
-        if (we & wd != '0) begin
+        if (we & rd != '0) begin
             reg_content[rd] <= wd;
             //$display("Writing to reg[%0d]: %h", rd, wd); // Debugging output
         end

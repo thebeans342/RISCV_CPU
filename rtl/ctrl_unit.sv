@@ -1,3 +1,5 @@
+`include "def.sv"
+
 module ctrl_unit (
     input   logic [31:0]    instr,
     input   logic           EQ,
@@ -36,7 +38,7 @@ module ctrl_unit (
 
         case (op)
             // load (I-type)
-            7'b0000011: begin 
+            `OPCODE_LOAD: begin 
                 RegWrite = 1;
                 ImmSrc = 3'b000; 
                 ALUsrc = 1;
@@ -46,7 +48,7 @@ module ctrl_unit (
             end
             
             // store (S-type)
-            7'b0100011: begin 
+            `OPCODE_STORE: begin 
                 ImmSrc = 3'b001; 
                 ALUsrc = 1;
                 MemWrite = 1; // Store operation writes to memory
@@ -54,7 +56,7 @@ module ctrl_unit (
             end
             
             // R-type
-            7'b0110011: begin
+            `OPCODE_RTYPE: begin
                 RegWrite = 1; 
                 ALUsrc = 0;
                 MemWrite = 0; // R-type does not write to memory
@@ -63,7 +65,7 @@ module ctrl_unit (
             end
             
             // I-type instructions (e.g., ADDI)
-            7'b0010011: begin // addi and other I-type arithmetic
+            `OPCODE_ITYPE: begin // addi and other I-type arithmetic
                 RegWrite = 1;
                 ImmSrc = 3'b000;
                 ALUsrc = 1;
@@ -72,7 +74,7 @@ module ctrl_unit (
             end
 
             // Branch instructions (B-type)
-            7'b1100011: begin 
+            `OPCODE_BRANCH: begin 
                 RegWrite = 0; 
                 ImmSrc = 3'b010;
                 ALUsrc = 0; 
@@ -81,17 +83,17 @@ module ctrl_unit (
                 branch = 1;
                 
                 case (funct3)
-                    3'b000: PCsrc = EQ; //beq
-                    3'b001: PCsrc = !EQ; //bne
-                    3'b100: PCsrc = ALUout[0]; //blt
-                    3'b101: PCsrc = !ALUout[0];//bge
-                    3'b110: PCsrc = ALUout[0]; //bltu
-                    3'b111: PCsrc = !ALUout[0]; //bgeu
+                    `BEQ_FUNCT3: PCsrc = EQ; //beq
+                    `BNE_FUNCT3: PCsrc = !EQ; //bne
+                    `BLT_FUNCT3: PCsrc = ALUout[0]; //blt
+                    `BGE_FUNCT3: PCsrc = !ALUout[0];//bge
+                    `BLTU_FUNCT3: PCsrc = ALUout[0]; //bltu
+                    `BGEU_FUNCT3: PCsrc = !ALUout[0]; //bgeu
                 endcase
             end
 
             // jalr
-            7'b1100111: begin 
+            `OPCODE_JALR: begin 
                 RegWrite = 1;
                 ImmSrc = 3'b000;
                 ALUsrc = 1;
@@ -102,7 +104,7 @@ module ctrl_unit (
             end
 
             //jal
-            7'b1101111: begin
+            `OPCODE_JAL: begin
                 RegWrite = 1;
                 ImmSrc = 3'b100;
                 ALUsrc = 1;
@@ -113,7 +115,7 @@ module ctrl_unit (
             end
 
             //lui
-            7'b0110111: begin
+            `OPCODE_LUI: begin
                 RegWrite = 1;
                 ImmSrc = 3'b011;
                 ALUsrc = 1;
@@ -122,7 +124,7 @@ module ctrl_unit (
             end
 
             //auipc
-            7'b0010111: begin
+            `OPCODE_AUIPC: begin
                 RegWrite = 1;
                 ImmSrc = 3'b011;
                 ALUsrc = 1;
