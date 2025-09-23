@@ -12,14 +12,17 @@ module PC (
     input logic [31:0]      ImmOp,
     input logic             stall,
     input logic             PCsrc,
+    output logic [31:0]     PCPlus4F,
     output logic [31:0]     PC_out
 );
     logic [31:0] PCnext;
     logic [31:0] PC_Target;
 
+    assign PCPlus4F = PC_out + 4;
+
     always_comb begin
         PC_Target = is_JALR ? rd1 : PC_out;
-        PCnext = PCsrc ? PC_Target + ImmOp: PC_out + 4;
+        PCnext = PCsrc ? PC_Target + ImmOp: PCPlus4F;
     end
 
     always_ff @(posedge clk or posedge rst) begin

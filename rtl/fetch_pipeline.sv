@@ -6,8 +6,10 @@ module fetch_pipeline (
     input logic flush,
     input logic [31:0] instr,
     input logic [31:0] PCF,
+    input logic [31:0] PCPlus4F,
     output logic [31:0] instrD,
-    output logic [31:0] PCD
+    output logic [31:0] PCD,
+    output logic [31:0] PCPlus4D
 );
 
     always_ff @(posedge clk) begin
@@ -18,6 +20,7 @@ module fetch_pipeline (
          if (clk) begin
             instrD <= instr;
             PCD <= PCF;
+            PCPlus4D <= PCPlus4F;
         end
     end
 

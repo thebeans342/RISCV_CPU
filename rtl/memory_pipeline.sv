@@ -6,11 +6,13 @@ module memory_pipeline (
     input logic [31:0] RDM,
     input logic [4:0] RdM,
     input logic [31:0] PCPlus4M,
+    input logic RegWriteM,
 
     output logic [31:0] ALUResultW,
     output logic [31:0] ReadDataW,
     output logic [4:0] RdW,
-    output logic [31:0] PCPlus4W
+    output logic [31:0] PCPlus4W,
+    output logic RegWriteW
 );
 
     
@@ -20,12 +22,14 @@ module memory_pipeline (
             ReadDataW <= 0;
             RdW <= 0;
             PCPlus4W <= 0;
+            RegWriteW <= 0;
 
         end else if (clk) begin
             ALUResultW <= ALUResultM;
             ReadDataW <= RDM;
             RdW <= RdM;
             PCPlus4W <= PCPlus4M;
+            RegWriteW <= RegWriteM;
         end
     end
 

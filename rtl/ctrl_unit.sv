@@ -88,10 +88,10 @@ module ctrl_unit (
                 case (funct3)
                     `BEQ_FUNCT3: PCsrc = EQ; //beq
                     `BNE_FUNCT3: PCsrc = !EQ; //bne
-                    `BLT_FUNCT3: PCsrc = ALUout; //blt
-                    `BGE_FUNCT3: PCsrc = !ALUout;//bge
-                    `BLTU_FUNCT3: PCsrc = ALUout; //bltu
-                    `BGEU_FUNCT3: PCsrc = !ALUout; //bgeu
+                    `BLT_FUNCT3: PCsrc = ALUout[0]; //blt
+                    `BGE_FUNCT3: PCsrc = !ALUout[0];//bge
+                    `BLTU_FUNCT3: PCsrc = ALUout[0]; //bltu
+                    `BGEU_FUNCT3: PCsrc = !ALUout[0]; //bgeu
                 endcase  
             end
 

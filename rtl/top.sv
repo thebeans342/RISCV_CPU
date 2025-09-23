@@ -9,6 +9,8 @@ module top #(
     //ctrl unit
     logic [DATA_WIDTH-1:0] instr;
     logic EQ;
+
+    logic PCsrc;
     logic PCsrcE;
 
     logic [1:0] ResultSrcD;
@@ -46,6 +48,7 @@ module top #(
     logic RegWriteM;
     logic RegWriteW;
 
+    logic [DATA_WIDTH-1:0] PCPlus4F;
     logic [DATA_WIDTH-1:0] PCPlus4D;
     logic [DATA_WIDTH-1:0] PCPlus4E;
     logic [DATA_WIDTH-1:0] PCPlus4M;
@@ -109,6 +112,7 @@ module top #(
         .rd1(RD1E),
         .ImmOp(ImmExtE),
         .PCsrc(PCsrcE),
+        .PCPlus4F(PCPlus4F),
         .PC_out(PC_out)
     );
 
@@ -124,8 +128,10 @@ module top #(
         .instr(instr),
         .flush(flush),
         .PCF(PC_out),
+        .PCPlus4F(PCPlus4F),
         .instrD(instrD),
-        .PCD(PCD)
+        .PCD(PCD),
+        .PCPlus4D(PCPlus4D)
     );
 
     extend extend (
@@ -199,7 +205,7 @@ module top #(
         .wd(read_data),
         .rs1(Rs1D),
         .rs2(Rs2D),
-        .rd(instrD[11:7]),
+        .rd(RdW),
         .ResultSrc(ResultSrcW),
         .ALUResultW(ALUResultW),
         .ReadDataW(ReadDataW),
@@ -257,10 +263,12 @@ module top #(
         .RDM(read_data),
         .RdM(RdM),
         .PCPlus4M(PCPlus4M),
+        .RegWriteM(RegWriteM),
         .ALUResultW(ALUResultW),
         .ReadDataW(ReadDataW),
         .RdW(RdW),
-        .PCPlus4W(PCPlus4W)
+        .PCPlus4W(PCPlus4W),
+        .RegWriteW(RegWriteW)
     );
 
     hazard_unit hazard_unit (
