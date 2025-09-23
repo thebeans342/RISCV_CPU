@@ -23,24 +23,19 @@ module data_mem #(
     end
 
     always_comb begin
-        case (ResultSrc)
-            2'b00: read_data = addr;
-            2'b01: 
-                case(funct3)
-                    `LB_FUNCT3: read_data = {{24{mem[addr][7]}}, mem[addr]}; // lb
-                    `LH_FUNCT3: read_data = {{16{mem[addr+1][7]}}, mem[addr+1], mem[addr]}; // lh
-                    `LW_FUNCT3: read_data = {mem[addr+3], mem[addr+2], mem[addr+1],mem[addr]}; //lw
-                    `LBU_FUNCT3: read_data = {24'b0, mem[addr]}; // lbu
-                    // 3'b100: //lbu
-                    //     case (addr[1:0])
-                    //         2'b00: read_data = {24'b0, mem[addr][7:0]};
-                    //         2'b01: read_data = {24'b0, mem[addr][15:8]};
-                    //         2'b10: read_data = {24'b0, mem[addr][23:16]};
-                    //         2'b11: read_data = {24'b0, mem[addr][31:24]};
-                    //     endcase
-                    `LHU_FUNCT3: read_data = {16'b0, mem[addr+1], mem[addr]}; // lhu
-                endcase
-            2'b10: read_data = PC_out + 4;
+        case(funct3)
+            `LB_FUNCT3: read_data = {{24{mem[addr][7]}}, mem[addr]}; // lb
+            `LH_FUNCT3: read_data = {{16{mem[addr+1][7]}}, mem[addr+1], mem[addr]}; // lh
+            `LW_FUNCT3: read_data = {mem[addr+3], mem[addr+2], mem[addr+1],mem[addr]}; //lw
+            `LBU_FUNCT3: read_data = {24'b0, mem[addr]}; // lbu
+            // 3'b100: //lbu
+            //     case (addr[1:0])
+            //         2'b00: read_data = {24'b0, mem[addr][7:0]};
+            //         2'b01: read_data = {24'b0, mem[addr][15:8]};
+            //         2'b10: read_data = {24'b0, mem[addr][23:16]};
+            //         2'b11: read_data = {24'b0, mem[addr][31:24]};
+            //     endcase
+            `LHU_FUNCT3: read_data = {16'b0, mem[addr+1], mem[addr]}; // lhu
         endcase
     end
 

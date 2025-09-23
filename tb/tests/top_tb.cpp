@@ -27,12 +27,12 @@ TEST_F(CpuTestbench, BaseProgramTest)
 {
     bool success = false;
     //system("./compile.sh asm/assembly_test.S");
-    system("./compile.sh asm/bge.S");
+    system("./compile.sh asm/assembly_test.S");
 
     for (int i = 0; i < CYCLES; i++)
     {
         runSimulation(1);
-        if (top->a0 == 5)
+        if (top->a0 == 255)
         {
             SUCCEED();
             success = true;

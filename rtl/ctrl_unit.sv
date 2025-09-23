@@ -11,7 +11,8 @@ module ctrl_unit (
     output  logic           MemWrite,
     output  logic [1:0]     ALUOp,
     output  logic [1:0]     ResultSrc, 
-    output  logic           is_JALR
+    output  logic           is_JALR,
+    output  logic           ReadMem
 );
 
     logic [6:0] op;
@@ -35,6 +36,7 @@ module ctrl_unit (
         is_JALR = 0;
         ResultSrc = 0;
         branch = 0;
+        ReadMem = 0;
 
         case (op)
             // load (I-type)
@@ -45,6 +47,7 @@ module ctrl_unit (
                 MemWrite = 0; 
                 ALUOp = 2'b00; // Load operation uses ALU for address calculation
                 ResultSrc = 1;
+                ReadMem = 1;
             end
             
             // store (S-type)
@@ -81,15 +84,15 @@ module ctrl_unit (
                 MemWrite = 0; // Branch instructions do not write to memory
                 ALUOp = 2'b01; // Branch operations use ALU for comparison
                 branch = 1;
-                
+
                 case (funct3)
                     `BEQ_FUNCT3: PCsrc = EQ; //beq
                     `BNE_FUNCT3: PCsrc = !EQ; //bne
-                    `BLT_FUNCT3: PCsrc = ALUout[0]; //blt
-                    `BGE_FUNCT3: PCsrc = !ALUout[0];//bge
-                    `BLTU_FUNCT3: PCsrc = ALUout[0]; //bltu
-                    `BGEU_FUNCT3: PCsrc = !ALUout[0]; //bgeu
-                endcase
+                    `BLT_FUNCT3: PCsrc = ALUout; //blt
+                    `BGE_FUNCT3: PCsrc = !ALUout;//bge
+                    `BLTU_FUNCT3: PCsrc = ALUout; //bltu
+                    `BGEU_FUNCT3: PCsrc = !ALUout; //bgeu
+                endcase  
             end
 
             // jalr
