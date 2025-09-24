@@ -216,9 +216,25 @@ module top #(
         .a0(a0) 
     );
 
+    ForwardAE_mux ForwardAE_mux (
+        .ForwardAE(ForwardAE),
+        .RD1E(RD1E),
+        .ALUResultM(ALUResultM),
+        .ResultW(read_data),
+        .ALUop1(ALUop1)
+    );
+
+    ForwardBE_mux ForwardBE_mux (
+        .ForwardBE(ForwardBE),
+        .RD2E(RD2E),
+        .ALUResultM(ALUResultM),
+        .ResultW(read_data),
+        .ALUop2(ALUop2)
+    );
+
     ALU ALU (
-        .ALUop1(RD1E),
-        .regop2(RD2E),
+        .ALUop1(ALUop1),
+        .regop2(ALUop2),
         .ALUctrl(ALUctrlE),
         .ALUsrc(ALUsrcE),
         .ImmOp(ImmExtE),
