@@ -112,6 +112,7 @@ module top #(
         .rd1(RD1E),
         .ImmOp(ImmExtE),
         .PCsrc(PCsrcE),
+        .PCE(PCE),
         .PCPlus4F(PCPlus4F),
         .PC_out(PC_out)
     );
@@ -210,14 +211,14 @@ module top #(
         .ALUResultW(ALUResultW),
         .ReadDataW(ReadDataW),
         .PCPlus4W(PCPlus4W),
-        .RD1(ALUop1),
-        .RD2(regOp2),
+        .RD1(RD1D),
+        .RD2(RD2D),
         .a0(a0) 
     );
 
     ALU ALU (
-        .ALUop1(ALUop1),
-        .regop2(regOp2),
+        .ALUop1(RD1E),
+        .regop2(RD2E),
         .ALUctrl(ALUctrlE),
         .ALUsrc(ALUsrcE),
         .ImmOp(ImmExtE),

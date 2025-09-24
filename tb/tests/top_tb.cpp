@@ -26,13 +26,12 @@ protected:
 TEST_F(CpuTestbench, BaseProgramTest)
 {
     bool success = false;
-    //system("./compile.sh asm/assembly_test.S");
-    system("./compile.sh asm/assembly_test.S");
+    system("./compile.sh asm/blt.S");
 
     for (int i = 0; i < CYCLES; i++)
     {
         runSimulation(1);
-        if (top->a0 == 254)
+        if (top->a0 == 1)
         {
             SUCCEED();
             success = true;
