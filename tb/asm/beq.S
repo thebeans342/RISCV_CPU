@@ -2,8 +2,8 @@
 .globl main
 
 main:
-    li t1, 100
-    li t2, 101
+    li t1, 101
+    li t2, 100
     beq t1, t2, eq    # enter eq
 
 n_eq:

@@ -8,6 +8,7 @@ module hazard_unit(
 
     input logic       RegWriteW,
     input logic       RegWriteM,
+    input logic       RegWriteE,
 
     input logic [4:0] RdE,
     input logic [4:0] RdM,
