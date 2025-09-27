@@ -4,6 +4,7 @@ module decode_pipeline (
     input logic clk,
     input logic rst,
     input logic flush,
+    input logic stall,
     
     input logic RegWriteD,
     input logic [1:0] ResultSrcD,
@@ -57,7 +58,7 @@ module decode_pipeline (
             RdE <= 0;
             ImmExtE <= 0;
             PCPlus4E <= 0;
-        end else if (clk) begin
+        end else if (!stall) begin
             RegWriteE <= RegWriteD;
             ResultSrcE <= ResultSrcD; 
             is_JALR_E <= is_JALR_D;

@@ -4,6 +4,7 @@ module fetch_pipeline (
     input logic clk, 
     input logic rst,
     input logic flush,
+    input logic stall,
     input logic [31:0] instr,
     input logic [31:0] PCF,
     input logic [31:0] PCPlus4F,
@@ -17,7 +18,7 @@ module fetch_pipeline (
             instrD <= 32'b0;
             PCD <= 32'b0;
         end
-         if (clk) begin
+         if (!stall) begin
             instrD <= instr;
             PCD <= PCF;
             PCPlus4D <= PCPlus4F;

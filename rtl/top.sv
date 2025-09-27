@@ -37,6 +37,7 @@ module top #(
     logic ReadMem;
     logic Jump;
 
+
     //regfile
     logic [4:0] Rs1D;
     logic [4:0] Rs2D;
@@ -89,6 +90,9 @@ module top #(
     logic [4:0] RdM;
     logic [4:0] RdW; 
 
+    logic ReadMemE;
+    logic ReadMemM;
+
     //hazard unit
     logic [1:0] ForwardAE;
     logic [1:0] ForwardBE;
@@ -123,6 +127,7 @@ module top #(
     fetch_pipeline fetch_pipeline (
         .clk(clk),
         .rst(rst),
+        .stall(stall),
         .instr(instr),
         .flush(flush),
         .PCF(PC_out),
@@ -165,6 +170,7 @@ module top #(
         .clk(clk),
         .rst(rst),
         .flush(flush),
+        .stall(stall),
         .RegWriteD(RegWriteD),
         .ResultSrcD(ResultSrcD),
         .is_JALR_D(is_JALR_D),
@@ -293,6 +299,8 @@ module top #(
         .RegWriteW(RegWriteW),
         .RegWriteM(RegWriteM),
         .RegWriteE(RegWriteE),
+        .RegWriteD(RegWriteD),
+        .RdD(RdD),
         .RdE(RdE),
         .RdM(RdM),
         .RdW(RdW),
@@ -301,7 +309,8 @@ module top #(
         .ALUResultM(ALUResultM),
         .ResultW(read_data),
         .PCsrcE(PCsrcE),
-        .ReadMem(ReadMem),
+        .ReadMemM(ReadMemM),
+        .ReadMemE(ReadMemE),
         .ForwardAE(ForwardAE),
         .ForwardBE(ForwardBE),
         .stall(stall),
