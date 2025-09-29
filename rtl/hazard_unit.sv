@@ -23,7 +23,7 @@ module hazard_unit(
     input logic [31:0] ResultW,
 
     input logic        PCsrcE,
-    input logic        ReadMemM,
+    input logic        ReadMemD,
     input logic        ReadMemE,
 
     output logic [1:0] ForwardAE,
@@ -49,9 +49,9 @@ module hazard_unit(
 
 
         //load instructions
-        if((Rs1D == RdE) && ReadMemE)
+        if((Rs1D == RdE) && ReadMemD)
             stall = 1;
-        if((Rs2D == RdE) && ReadMemE)
+        if((Rs2D == RdE) && ReadMemD)
             stall = 1;
 
 

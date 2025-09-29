@@ -12,6 +12,7 @@ module decode_pipeline (
     input logic [3:0] ALUctrlD,
     input logic ALUsrcD,
     input logic PCsrcD,
+    input logic ReadMemD,
 
     input logic [31:0] RD1D,
     input logic [31:0] RD2D,
@@ -29,6 +30,7 @@ module decode_pipeline (
     output logic [3:0] ALUctrlE,
     output logic ALUsrcE,
     output logic PCsrcE,
+    output logic ReadMemE,
 
     output logic [31:0] RD1E,
     output logic [31:0] RD2E,
@@ -49,6 +51,7 @@ module decode_pipeline (
             ALUctrlE <= 0;
             ALUsrcE <= 0;
             PCsrcE <= 0;
+            ReadMemE <= 0;
 
             RD1E <= 0;
             RD2E <= 0;
@@ -65,6 +68,7 @@ module decode_pipeline (
             ALUctrlE <= ALUctrlD;
             ALUsrcE <= ALUsrcD;
             PCsrcE <= PCsrcD;
+            ReadMemE <= ReadMemD;
 
             RD1E <= RD1D;
             RD2E <= RD2D;
