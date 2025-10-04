@@ -1,7 +1,7 @@
 #include "top_testbench.h"
 #include <cstdlib>
 
-#define CYCLES 10000
+#define CYCLES 1000000
 
 unsigned int ticks = 0;
 
@@ -26,12 +26,12 @@ protected:
 TEST_F(CpuTestbench, BaseProgramTest)
 {
     bool success = false;
-    system("./compile.sh asm/beq.S");
+    system("./compile.sh asm/pdf.S");
 
     for (int i = 0; i < CYCLES; i++)
     {
         runSimulation(1);
-        if (top->a0 == 5)
+        if (top->a0 == 15636)
         {
             SUCCEED();
             success = true;
