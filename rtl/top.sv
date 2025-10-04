@@ -84,6 +84,9 @@ module top #(
 
     logic [DATA_WIDTH-1:0] ReadDataW; 
     logic [DATA_WIDTH-1:0] ReadDataM;
+
+    logic [6:0] opcodeE;
+    logic [2:0] funct3E;
     
     logic [4:0] RdD;
     logic [4:0] RdE;
@@ -108,7 +111,6 @@ module top #(
         .clk(clk),
         .rst(rst),
         .stall(stall),
-        .EQ(EQ),
         .is_JALR(is_JALR_E),
         .rd1(RD1E),
         .ImmOp(ImmExtE),
@@ -176,7 +178,6 @@ module top #(
         .is_JALR_D(is_JALR_D),
         .ALUctrlD(ALUctrlD),
         .ALUsrcD(ALUsrcD),
-        .PCsrcD(PCsrc),
         .ReadMemD(ReadMem),
         .RD1D(RD1D),
         .RD2D(RD2D),
@@ -186,13 +187,14 @@ module top #(
         .RdD(RdD),
         .ImmExtD(ImmExtD),
         .PCPlus4D(PCPlus4D),
+        .opcodeD(instrD[6:0]),
+        .funct3D(instrD[14:12]),
         .RegWriteE(RegWriteE),
         .ResultSrcE(ResultSrcE),
         .MemWriteE(MemWriteE),
         .is_JALR_E(is_JALR_E),
         .ALUctrlE(ALUctrlE),
         .ALUsrcE(ALUsrcE),
-        .PCsrcE(PCsrcE),
         .ReadMemE(ReadMemE),
         .RD1E(RD1E),
         .RD2E(RD2E),
@@ -201,7 +203,9 @@ module top #(
         .Rs2E(Rs2E),
         .RdE(RdE),
         .ImmExtE(ImmExtE),
-        .PCPlus4E(PCPlus4E)
+        .PCPlus4E(PCPlus4E),
+        .opcodeE(opcodeE),
+        .funct3E(funct3E)
     );
 
     reg_file reg_file (
@@ -245,6 +249,14 @@ module top #(
         .ImmOp(ImmExtE),
         .ALUout(ALUout),
         .EQ(EQ)
+    );
+
+    PCsrc_mux PCsrc_mux (
+        .opcode(opcodeE),
+        .funct3(funct3E),
+        .EQ(EQ),
+        .ALUout(ALUout[0]),
+        .PCsrc(PCsrcE)
     );
 
     execute_pipeline execute_pipeline (

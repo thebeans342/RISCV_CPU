@@ -85,14 +85,14 @@ module ctrl_unit (
                 ALUOp = 2'b01; // Branch operations use ALU for comparison
                 branch = 1;
 
-                case (funct3)
-                    `BEQ_FUNCT3: PCsrc = EQ; //beq
-                    `BNE_FUNCT3: PCsrc = !EQ; //bne
-                    `BLT_FUNCT3: PCsrc = ALUout[0]; //blt
-                    `BGE_FUNCT3: PCsrc = !ALUout[0];//bge
-                    `BLTU_FUNCT3: PCsrc = ALUout[0]; //bltu
-                    `BGEU_FUNCT3: PCsrc = !ALUout[0]; //bgeu
-                endcase  
+                // case (funct3)
+                //     `BEQ_FUNCT3: PCsrc = EQ; //beq
+                //     `BNE_FUNCT3: PCsrc = !EQ; //bne
+                //     `BLT_FUNCT3: PCsrc = ALUout[0]; //blt
+                //     `BGE_FUNCT3: PCsrc = !ALUout[0];//bge
+                //     `BLTU_FUNCT3: PCsrc = ALUout[0]; //bltu
+                //     `BGEU_FUNCT3: PCsrc = !ALUout[0]; //bgeu
+                // endcase  
             end
 
             // jalr
@@ -100,7 +100,7 @@ module ctrl_unit (
                 RegWrite = 1;
                 ImmSrc = 3'b000;
                 ALUsrc = 1;
-                PCsrc = 1;
+                //PCsrc = 1;
                 MemWrite = 0; // jalr does not write to memory
                 is_JALR = 1;
                 ResultSrc = 2'b10; // jalr uses PC + 4 as result source
@@ -111,7 +111,7 @@ module ctrl_unit (
                 RegWrite = 1;
                 ImmSrc = 3'b100;
                 ALUsrc = 1;
-                PCsrc = 1;
+                //PCsrc = 1;
                 MemWrite = 0;
                 is_JALR = 0;
                 ResultSrc = 2'b10; // jal uses PC + 4 as result source
@@ -131,7 +131,7 @@ module ctrl_unit (
                 RegWrite = 1;
                 ImmSrc = 3'b011;
                 ALUsrc = 1;
-                PCsrc = 1;
+                //PCsrc = 1;
             end
 
         endcase

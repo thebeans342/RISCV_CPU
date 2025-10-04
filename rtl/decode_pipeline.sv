@@ -11,7 +11,6 @@ module decode_pipeline (
     input logic is_JALR_D,
     input logic [3:0] ALUctrlD,
     input logic ALUsrcD,
-    input logic PCsrcD,
     input logic ReadMemD,
 
     input logic [31:0] RD1D,
@@ -23,13 +22,15 @@ module decode_pipeline (
     input logic [31:0] ImmExtD,
     input logic [31:0] PCPlus4D,
 
+    input logic [6:0] opcodeD,
+    input logic [2:0] funct3D,
+
     output logic RegWriteE,
     output logic [1:0] ResultSrcE,
     output logic MemWriteE,
     output logic is_JALR_E,
     output logic [3:0] ALUctrlE,
     output logic ALUsrcE,
-    output logic PCsrcE,
     output logic ReadMemE,
 
     output logic [31:0] RD1E,
@@ -39,7 +40,10 @@ module decode_pipeline (
     output logic [4:0] Rs2E,
     output logic [4:0] RdE,
     output logic [31:0] ImmExtE,
-    output logic [31:0] PCPlus4E
+    output logic [31:0] PCPlus4E,
+
+    output logic [6:0] opcodeE,
+    output logic [2:0] funct3E
 
 );
 
@@ -50,8 +54,9 @@ module decode_pipeline (
             is_JALR_E <= 0;
             ALUctrlE <= 0;
             ALUsrcE <= 0;
-            PCsrcE <= 0;
             ReadMemE <= 0;
+            opcodeE <= 0;
+            funct3E <= 0;
 
             RD1E <= 0;
             RD2E <= 0;
@@ -67,8 +72,9 @@ module decode_pipeline (
             is_JALR_E <= is_JALR_D;
             ALUctrlE <= ALUctrlD;
             ALUsrcE <= ALUsrcD;
-            PCsrcE <= PCsrcD;
             ReadMemE <= ReadMemD;
+            opcodeE <= opcodeD;
+            funct3E <= funct3D;
 
             RD1E <= RD1D;
             RD2E <= RD2D;

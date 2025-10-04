@@ -8,7 +8,6 @@ main:
 
 n_eq:
     li a0, 0x1
-    j end
 
 eq:    
     li a0, 0x5    

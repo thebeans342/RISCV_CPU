@@ -3,7 +3,6 @@
 module PC (
     input logic             clk,
     input logic             rst,
-    input logic             EQ,
     input logic             is_JALR,
     input logic [31:0]      rd1,
     input logic [31:0]      ImmOp,

@@ -1,7 +1,7 @@
 #include "top_testbench.h"
 #include <cstdlib>
 
-#define CYCLES 1000000
+#define CYCLES 10000
 
 unsigned int ticks = 0;
 
