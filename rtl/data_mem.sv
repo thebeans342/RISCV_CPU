@@ -6,11 +6,9 @@ module data_mem #(
 ) (
     input   logic clk,
     input   logic wen,
-    input   logic [1:0] ResultSrc,
     input   logic [2:0] funct3,
     input   logic [DATA_WIDTH-1:0] addr,
     input   logic [DATA_WIDTH-1:0] write_data,
-    input   logic [DATA_WIDTH-1:0] PC_out,
     output  logic [DATA_WIDTH-1:0] read_data
 );
 

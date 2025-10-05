@@ -67,7 +67,6 @@ module top #(
 
     logic [DATA_WIDTH-1:0] ALUout; //wd
     logic [DATA_WIDTH-1:0] ALUop1;
-    logic [DATA_WIDTH-1:0] regOp2;
     logic [DATA_WIDTH-1:0] ALUop2;
     
     logic [DATA_WIDTH-1:0] ImmExtD;
@@ -87,6 +86,7 @@ module top #(
 
     logic [6:0] opcodeE;
     logic [2:0] funct3E;
+    logic [2:0] funct3M;
     
     logic [4:0] RdD;
     logic [4:0] RdE;
@@ -176,6 +176,7 @@ module top #(
         .RegWriteD(RegWriteD),
         .ResultSrcD(ResultSrcD),
         .is_JALR_D(is_JALR_D),
+        .MemWriteD(MemWriteD),
         .ALUctrlD(ALUctrlD),
         .ALUsrcD(ALUsrcD),
         .ReadMemD(ReadMem),
@@ -266,43 +267,45 @@ module top #(
         .ResultSrcE(ResultSrcE),
         .MemWriteE(MemWriteE),
         .ALUresult(ALUout),
-        .WriteDataE(regOp2),
+        .WriteDataE(ALUop2),
         .RdE(RdE),
         .PCPlus4E(PCPlus4E),
+        .funct3E(funct3E),
         .RegWriteM(RegWriteM),
         .ResultSrcM(ResultSrcM),
         .MemWriteM(MemWriteM),
         .ALUResultM(ALUResultM),
         .WriteDataM(WriteDataM),
         .RdM(RdM),
-        .PCPlus4M(PCPlus4M)
+        .PCPlus4M(PCPlus4M),
+        .funct3M(funct3M)
     );
 
 
     data_mem data_mem(
         .clk(clk),
         .wen(MemWriteM),
-        .ResultSrc(ResultSrcW),
-        .addr(ALUResultW),
+        .addr(ALUResultM),
         .write_data(WriteDataM),
         .read_data(ReadDataM),
-        .PC_out(PCPlus4W),
-        .funct3(instr[14:12]) 
+        .funct3(funct3M) 
     );
 
     memory_pipeline memory_pipeline (
         .clk(clk),
         .rst(rst),
         .ALUResultM(ALUResultM),
-        .RDM(read_data),
+        .RDM(ReadDataM),
         .RdM(RdM),
         .PCPlus4M(PCPlus4M),
         .RegWriteM(RegWriteM),
+        .ResultSrcM(ResultSrcM),
         .ALUResultW(ALUResultW),
         .ReadDataW(ReadDataW),
         .RdW(RdW),
         .PCPlus4W(PCPlus4W),
-        .RegWriteW(RegWriteW)
+        .RegWriteW(RegWriteW),
+        .ResultSrcW(ResultSrcW)
     );
 
     hazard_unit hazard_unit (

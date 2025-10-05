@@ -10,6 +10,7 @@ module execute_pipeline (
     input logic [31:0] WriteDataE,
     input logic [4:0] RdE,
     input logic [31:0] PCPlus4E,
+    input logic [2:0] funct3E,
 
     output logic RegWriteM,
     output logic [1:0] ResultSrcM,
@@ -18,7 +19,8 @@ module execute_pipeline (
     output logic [31:0] ALUResultM,
     output logic [31:0] WriteDataM,
     output logic [4:0] RdM,
-    output logic [31:0] PCPlus4M
+    output logic [31:0] PCPlus4M,
+    output logic [2:0] funct3M
 );
     
     always_ff @(posedge clk or posedge rst) begin
@@ -31,16 +33,18 @@ module execute_pipeline (
             WriteDataM <= 0;
             RdM <= 0;
             PCPlus4M <= 0;
+            funct3M <= 0;
 
         end else if (clk) begin
             RegWriteM <= RegWriteE;
             ResultSrcM <= ResultSrcE;
-            MemWriteM <= MemWriteM;
+            MemWriteM <= MemWriteE;
 
             ALUResultM <= ALUresult;
             WriteDataM <= WriteDataE;
             RdM <= RdE;
             PCPlus4M <= PCPlus4E;
+            funct3M <= funct3E;
         end
     end
 

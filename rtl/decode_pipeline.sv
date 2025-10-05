@@ -8,6 +8,7 @@ module decode_pipeline (
     
     input logic RegWriteD,
     input logic [1:0] ResultSrcD,
+    input logic MemWriteD,
     input logic is_JALR_D,
     input logic [3:0] ALUctrlD,
     input logic ALUsrcD,
@@ -52,6 +53,7 @@ module decode_pipeline (
             RegWriteE <= 0;
             ResultSrcE <= 0; 
             is_JALR_E <= 0;
+            MemWriteE <= 0;
             ALUctrlE <= 0;
             ALUsrcE <= 0;
             ReadMemE <= 0;
@@ -66,10 +68,11 @@ module decode_pipeline (
             RdE <= 0;
             ImmExtE <= 0;
             PCPlus4E <= 0;
-        end else if (!stall) begin
+        end else if (clk) begin
             RegWriteE <= RegWriteD;
             ResultSrcE <= ResultSrcD; 
             is_JALR_E <= is_JALR_D;
+            MemWriteE <= MemWriteD;
             ALUctrlE <= ALUctrlD;
             ALUsrcE <= ALUsrcD;
             ReadMemE <= ReadMemD;

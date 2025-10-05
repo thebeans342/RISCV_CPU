@@ -49,9 +49,9 @@ module hazard_unit(
 
 
         //load instructions
-        if((Rs1D == RdE) && ReadMemD)
+        if((Rs1D == RdE) && ReadMemE)
             stall = 1;
-        if((Rs2D == RdE) && ReadMemD)
+        if((Rs2D == RdE) && ReadMemE)
             stall = 1;
 
 

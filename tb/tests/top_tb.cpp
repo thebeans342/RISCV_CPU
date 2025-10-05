@@ -26,12 +26,12 @@ protected:
 TEST_F(CpuTestbench, BaseProgramTest)
 {
     bool success = false;
-    system("./compile.sh asm/pdf.S");
+    system("./compile.sh asm/lbu_sb.S");
 
     for (int i = 0; i < CYCLES; i++)
     {
         runSimulation(1);
-        if (top->a0 == 15636)
+        if (top->a0 == 300)
         {
             SUCCEED();
             success = true;
