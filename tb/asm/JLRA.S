@@ -1,7 +1,7 @@
 .text
 .globl main
 main:
-    li t1, 50           # t1 = 50
+    lui t1, 50           # t1 = 50
     jal ra, add_one     # call add_one (t1 = 51)
     # jal ra, add_one     # call add_one (t1 = 52)
     # jal ra, add_one     # call add_one (t1 = 53)
@@ -11,6 +11,6 @@ add_one:
     ret                   # return to main
 
 finish:     # function to set the return value then wait
-    addi    a0, t1, 0           # a0 = t1 (expected = 53)
+    addi    a0, t1, 0           # a0 = t1 (wexpected = 53)
 _wait:
     bne     a0, zero, _wait     # loop forever

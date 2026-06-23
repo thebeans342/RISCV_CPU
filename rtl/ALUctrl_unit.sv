@@ -39,7 +39,7 @@ module ALUctrl_unit (
                     `SR_FUNCT3: 
                         case (funct7) 
                             7'b0: ALUctrl = 4'b0110; // srl
-                            7'b0010000: ALUctrl = 4'b0111; // sra
+                            7'b0100000: ALUctrl = 4'b0111; // sra
                         endcase
                     `OR_FUNCT3: ALUctrl = 4'b0011; // or
                     `AND_FUNCT3: ALUctrl = 4'b0010; // and

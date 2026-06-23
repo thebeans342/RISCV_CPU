@@ -1,7 +1,7 @@
 #include "top_testbench.h"
 #include <cstdlib>
 
-#define CYCLES 1000000
+#define CYCLES 1000
 
 unsigned int ticks = 0;
 
@@ -26,12 +26,12 @@ protected:
 TEST_F(CpuTestbench, BaseProgramTest)
 {
     bool success = false;
-    system("./compile.sh asm/JLRA.S");
+    system("./compile.sh asm/alutest.S");
 
     for (int i = 0; i < CYCLES; i++)
     {
         runSimulation(1);
-        if (top->a0 == 51)
+        if (top->a0 == -2147483644)
         {
             SUCCEED();
             success = true;
