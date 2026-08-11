@@ -26,12 +26,12 @@ protected:
 TEST_F(CpuTestbench, BaseProgramTest)
 {
     bool success = false;
-    system("./compile.sh asm/alutest.S");
+    system("./compile.sh asm/JLRA.S");
 
     for (int i = 0; i < CYCLES; i++)
     {
         runSimulation(1);
-        if (top->a0 == -2147483644)
+        if (top->a0 == 53)
         {
             SUCCEED();
             success = true;

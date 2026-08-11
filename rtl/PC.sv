@@ -19,7 +19,7 @@ module PC (
 
     always_comb begin
         PC_Target = is_JALR ? rd1 : PCE;
-        PCnext = (PCsrc && (((PC_Target+ImmOp) != PC_out)))? PC_Target + ImmOp: PCPlus4F;
+        PCnext = PCsrc ? (PC_Target + ImmOp) : PCPlus4F;
     end
 
     always_ff @(posedge clk or posedge rst) begin

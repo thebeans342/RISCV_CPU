@@ -27,7 +27,7 @@ module execute_pipeline (
         if (rst) begin
             RegWriteM <= 0;
             ResultSrcM <= 0;
-            MemWriteM <=0;
+            MemWriteM <= 0;
 
             ALUResultM <= 0;
             WriteDataM <= 0;

@@ -38,14 +38,15 @@ module hazard_unit(
         ForwardAE = 0;
         ForwardBE = 0;
 
-        if((Rs1E == RdW) && RegWriteW) 
-            ForwardAE = 2'b01;
-        if((Rs2E == RdW) && RegWriteW) 
-            ForwardBE = 2'b01;
         if((RdM == Rs1E) && RegWriteM) 
             ForwardAE = 2'b10;
+        else if((Rs1E == RdW) && RegWriteW) 
+            ForwardAE = 2'b01;
         if((RdM == Rs2E) && RegWriteM) 
             ForwardBE = 2'b10;
+        else if((Rs2E == RdW) && RegWriteW) 
+            ForwardBE = 2'b01;
+
 
 
         //load instructions
@@ -53,7 +54,6 @@ module hazard_unit(
             stall = 1;
         if((Rs2D == RdE) && ReadMemE)
             stall = 1;
-
 
         //branch instructions
         if(PCsrcE == 1)
