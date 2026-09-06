@@ -4,11 +4,12 @@ module branch_predictor (
     input logic clk,
     input logic rst,
 
-    input logic [1:0] curr_state,
+    input logic hit,
 
-    output logic [1:0] next_state,
+    input logic [1:0] prev_state,
+    output logic [1:0] curr_state,
 
-    output logic hit
+    output logic taken
 );  
     
 
@@ -35,6 +36,15 @@ module branch_predictor (
             WEAKLY_TAKEN: next_state = taken ? STRONGLY_TAKEN : WEAKLY_NOT_TAKEN;
             STRONGLY_TAKEN: next_state = taken ? STRONGLY_TAKEN : WEAKLY_TAKEN; 
         endcase
-
     end
+
+    always_comb begin
+        case(state) 
+            STRONGLY_NOT_TAKEN: hit = 1'b0;
+            WEAKLY_NOT_TAKEN: hit = 1'b0;
+            WEAKLY_TAKEN: hit = 1'b1;
+            STRONGLY_TAKEN: hit = 1'b1;
+        endcase
+    end
+
 endmodule

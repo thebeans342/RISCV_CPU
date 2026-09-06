@@ -13,6 +13,9 @@ module top #(
     logic PCsrc;
     logic PCsrcE;
 
+    // G share branch predictor
+    logic [31:0] predicted_branch;
+
     logic [1:0] ResultSrcD;
     logic [1:0] ResultSrcE;
     logic [1:0] ResultSrcM;
@@ -124,7 +127,16 @@ module top #(
         .rst(rst),
         .rda(PC_out),
         .dout(instr)
-    );     
+    );   
+
+    branch_predictor branch_predictor (
+        .clk(clk),
+        .rst(rst),
+        .PC(PC),
+        .address(PC_out),
+        .actual_branch(PCPlus4D),
+        .predicted_branch(predicted_branch)
+    )
 
     fetch_pipeline fetch_pipeline (
         .clk(clk),
