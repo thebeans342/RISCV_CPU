@@ -4,8 +4,11 @@ module branch_predictor (
     input logic clk,
     input logic rst,
 
-    input logic [31:0] PC,
+    // current PC at fetch stage
+    input logic [31:0] PC_fetch,
+    // PC address if branch/jump condition is treu
     input logic [31:0] address,
+    // true branch result
     input logic [31:0] actual_branch,
 
     output logic [31:0] predicted_branch
@@ -19,7 +22,7 @@ module branch_predictor (
     //index of the pattern history table
     logic [31:0] GHT_index;
 
-    assign GHT_index = PC ^ history;
+    assign GHT_index = PC_fetch ^ history;
 
     logic [1:0] next_state;
 
@@ -42,6 +45,7 @@ module branch_predictor (
     always_ff @(posedge clk) begin
         history <= {history[30:0], hit};
         history_table[GHT_index] <= curr_state;
+        predicted_branch <= taken ? address : PC_fetch; 
     end
 
     always_comb begin
